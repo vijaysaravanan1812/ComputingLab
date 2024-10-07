@@ -1,0 +1,3 @@
+Pause of 3 seconds ended
+Pause of 4 seconds ended
+Pause of 5 seconds ended

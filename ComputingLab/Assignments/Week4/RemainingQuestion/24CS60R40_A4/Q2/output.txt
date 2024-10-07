@@ -1,0 +1,2 @@
+Height of tree: 2 
+ In-Order Traversal:  9  11  19  21  40 Pre-Order Traversal:  21  11  9  19  40 Post-Order Traversal:  9  19  11  40  21 Level-Order Traversal:  21 40 40 40Checking node’s value is exactly half of the sum of its child nodes 0

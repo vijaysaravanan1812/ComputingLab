@@ -1,0 +1,11 @@
+Search ELement : 43 
+Burn Tree
+At time t= 0 nodes burned = 30
+At time t= 1 nodes burned = 25
+At time t= 2 nodes burned = 20 , 43
+At time t= 3 nodes burned = 18 , 22 , 15
+At time t= 4 nodes burned = 10
+At time t= 5 nodes burned = 8 , 12
+At time t= 6 nodes burned = 6 , 9
+Total time = 6 
+Invalid choice.

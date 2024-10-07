@@ -13,7 +13,7 @@ int PrimsAlgorithm(vector<vector<Edge>>& Adj, int NumberOfVertex){
     fill(MinWeight, MinWeight + NumberOfVertex, INT_MAX);
     fill(Parent, Parent + NumberOfVertex , -1);
 
- 
+    
     MinHeap.push({0, 0}); // Start with node 0 and weight 0
     int sum = 0;
     while(!MinHeap.empty()){

@@ -1,0 +1,5 @@
+Add function called with word: asked
+Add function called with word: small
+Add function called with word: ne
+Add function called with word: enough
+Add function called with word: il

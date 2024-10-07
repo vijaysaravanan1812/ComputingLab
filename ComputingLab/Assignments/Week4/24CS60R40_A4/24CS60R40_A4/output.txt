@@ -1,0 +1,3 @@
+Search ELement : 77 
+Height of tree: 2 
+ In-Order Traversal:  29  31  40  44  45  49  77 Pre-Order Traversal:  44  31  29  40  49  45  77 Post-Order Traversal:  29  40  31  45  77  49  44 Level-Order Traversal:  44 49 77 77 77 77Invalid choice.

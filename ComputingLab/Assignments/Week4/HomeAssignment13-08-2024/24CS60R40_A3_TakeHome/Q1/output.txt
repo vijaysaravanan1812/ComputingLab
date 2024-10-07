@@ -1,0 +1,2 @@
+Pre Order Traversal
+ 9  15  7  20  3 Height of treee 2
