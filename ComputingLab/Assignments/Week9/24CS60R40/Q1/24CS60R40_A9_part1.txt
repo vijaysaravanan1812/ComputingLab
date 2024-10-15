@@ -1,0 +1,7 @@
+Statistics for 500 operations:
+Average time: 0.039571 seconds
+Standard Deviation: 0.005705 seconds
+Median: 0.036430 seconds
+95th Percentile: 0.050257 seconds
+Max time: 0.050257 seconds
+Total 500 Operation time 0.050257 seconds

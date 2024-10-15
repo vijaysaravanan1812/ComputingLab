@@ -1,0 +1,18 @@
+
+
+struct Design
+struct Data {
+    int Operator1;
+    int Operator2;
+    double Result;
+    char Operation[100];
+};
+
+
+Statistics for 500 operations:
+Average time: 0.036281 seconds
+Standard Deviation: 0.006298 seconds
+Median: 0.032460 seconds
+95th Percentile: 0.045115 seconds
+Max time: 0.045115 seconds
+Total 500 Operation time 0.050257 seconds

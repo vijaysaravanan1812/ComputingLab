@@ -1,0 +1,22 @@
+
+struct OperationData {
+    int x;
+    int y;
+    double result;
+    std::string operation;
+};
+
+
+Average time: 3.7005 seconds
+Standard Deviation: 1.9001 seconds
+Median time: 4.0005 seconds
+Max time: 6.0006 seconds
+95th Percentail 6.0006 seconds
+Total time of 500 Operation 1951 seconds
+
+
+The time taken by std::thread is higher Question no :2
+
+The time taken by pthreads is lower Question no :1
+
+because part 2 runs in squencial manner and part 1 runs in parallel manner 

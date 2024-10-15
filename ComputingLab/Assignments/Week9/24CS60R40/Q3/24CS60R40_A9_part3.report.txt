@@ -1,0 +1,184 @@
+
+Time taken: Test completed in 0.0432357 Seconds.
+Much better than Part 1 and 2
+
+
+Design of job JobQueue
+
+
+I have implement JobQueue with locks
+// JobNode structure to hold function pointers and their arguments
+
+struct JobNode {
+    void (*job)(int, int); 
+    int arg1, arg2;         
+    JobNode* next;
+
+    JobNode(void (*j)(int, int), int a1, int a2) {
+        job = j;
+        arg1 = a1;
+        arg2 = a2;
+        next = nullptr;
+    }
+};
+
+class JobQueue {
+private:
+    JobNode* head;
+    JobNode* tail;
+    std::mutex queueMutex; 
+
+public:
+    JobQueue() {
+        head = nullptr;
+        tail = nullptr;
+    }
+
+    // Enqueue a job with arguments (blocking with mutex)
+    void enqueue(void (*job)(int, int), int arg1, int arg2) {
+       
+    }
+
+    // Dequeue a job and return its function and arguments (blocking with mutex)
+    bool dequeue(void (*&job)(int, int), int& arg1, int& arg2) {
+      
+    }
+};
+
+class ThreadPool {
+private:
+    int maxThreads; 
+    std::thread* workers;  
+    JobQueue jobQueue;
+    std::atomic<bool> running; 
+    std::atomic<int> activeJobs;  
+
+    // Worker function that runs in each thread
+    void workerThread() {
+     
+    }
+
+public:
+    // Constructor to initialize pool with a fixed number of threads
+    ThreadPool(int numThreads) {
+        maxThreads = numThreads;
+        running = true;
+        activeJobs = 0;
+        workers = new std::thread[maxThreads];  
+        for (int i = 0; i < maxThreads; ++i) {
+            workers[i] = std::thread(&ThreadPool::workerThread, this);
+        }
+    }
+
+    // Destructor to clean up threads
+    ~ThreadPool() {
+        running = false; 
+        for (int i = 0; i < maxThreads; ++i) {
+            if (workers[i].joinable()) {
+                workers[i].join();
+            }
+        }
+        delete[] workers; 
+    }
+
+    // Submit a job to the pool
+    void submit(void (*job)(int, int), int arg1, int arg2) {
+ 
+    }
+
+    // Wait for all jobs to complete
+    void waitForAllJobs() {
+ 
+    }
+};
+
+
+
+
+
+
+Challenges
+
+I tried lock free queue #include <atomic> but i got this error
+
+
+Output
+---------------------------------------------
+vijay@vijay-Lenovo-ideapad-330-15IKB:~/Documents/ComputingLab/ComputingLab/ComputingLab/Assignments/Week9/24CS60R40/Q3$ ./a.out
+Starting thread pool test with 50 threads...
+Power result: 125000
+Addition result: 43
+Subtraction result: 85
+Addition result: 34
+Addition result: 32
+Power result: 125000
+Power result: 7311616
+Multiplication result: 434
+Multiplication result: Addition result: 3518
+Multiplication result: 270
+Addition result: 46
+Addition result: Addition result: Multiplication result: 40
+Subtraction result: 15
+Addition result: 93
+Division result: 
+Multiplication result: Power result: Division result: 308
+Multiplication result: Addition result: 69
+28446
+
+Subtraction result: 55
+Subtraction result: 5868
+78
+Addition result: 94
+
+Power result: 85766121
+Multiplication result: 66
+18
+Subtraction result: Power result: 41529
+Division result: 5.5
+Division result: 10.5
+Power result: 45435424
+Division result: 8.33333
+Subtraction result: 58
+Division result: 14.6
+Subtraction result: 58
+Power result: -2147483648
+Division result: 15.5
+Power result: Multiplication result: 588
+
+Addition result: 84
+Subtraction result: 75
+11
+Subtraction result: 22
+Multiplication result: 49
+Subtraction result: 55
+Addition result: 90
+-2147483648
+Division result: 77
+Power result: -2147483648
+Subtraction result: 32
+double free or corruption (fasttop)
+Power result: 125000
+munmap_chunk(): invalid pointer
+munmap_chunk(): invalid pointer
+Multiplication result: 42
+Power result: 59969536
+Aborted (core dumped)
+---------------------------------------------
+
+I didn't use coroutines because i have difficultly in understanding that concept.
+I have partially understand coroutines but i faced difficulty in implementing it in assignment
+
+Output
+-------------------------------
+vijay@vijay-Lenovo-ideapad-330-15IKB:~/Documents/ComputingLab/ComputingLab/ComputingLab/Assignments/Week9/24CS60R40/Q3$ ./Q3
+Starting coroutines with thread pool test...
+Addition result: 1
+Subtraction result: 1
+Multiplication result: 6
+Division result: 3
+Segmentation fault (core dumped)
+vijay@vijay-Lenovo-ideapad-330-15IKB:~/Documents/ComputingLab/ComputingLab/ComputingLab/Assignments/Week9/24CS60R40/Q3$ 
+
+---------------------------------
+For me, it is hard figure out which makes Segmentation fault
+

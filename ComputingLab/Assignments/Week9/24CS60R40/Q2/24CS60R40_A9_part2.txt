@@ -1,0 +1,6 @@
+Average time: 3.7005 seconds
+Standard Deviation: 1.9001 seconds
+Median time: 4.0005 seconds
+Max time: 6.0006 seconds
+95th Percentail 6.0006 seconds
+Total time of 500 Operation 1951 seconds
