@@ -1,0 +1,4 @@
+ 
+ 
+gcc -o chaos_order 24CS60R40_A11_Task1.c 
+./chaos_order 5 5

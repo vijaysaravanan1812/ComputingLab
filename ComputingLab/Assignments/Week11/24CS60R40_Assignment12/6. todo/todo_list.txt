@@ -1,0 +1,6 @@
+1 | Home work | high | incomplete
+2 | Dinner | low | complete
+3 | Seminar | medium | incomplete
+4 | Seminar | medium | incomplete
+5 | Aua | high | incomplete
+6 | Aual | low | incomplete
