@@ -1,0 +1,168 @@
+
+---------------------------------
+Testing with 100 threads
+---------------------------------
+Average Latency
+
+Average create latency 0.000556668
+Average Write latency 8.7624e-05
+Average Read latency 6.74184e-05
+Average Delete latency 4.91933e-05
+
+CPU and Memory Utilization
+
+Memory Utilization: 47.5077%
+CPU Utilization: 11.9201%
+Memory Utilization: 47.5106%
+CPU Utilization: 10.0509%
+Memory Utilization: 47.5437%
+CPU Utilization: 13.758%
+Memory Utilization: 47.4356%
+CPU Utilization: 10.5464%
+Memory Utilization: 47.2735%
+CPU Utilization: 17.3858%
+Memory Utilization: 47.343%
+CPU Utilization: 14.7208%
+Memory Utilization: 47.3386%
+CPU Utilization: 19.7183%
+Memory Utilization: 47.3796%
+CPU Utilization: 16.2643%
+Memory Utilization: 47.4083%
+CPU Utilization: 23.9186%
+Memory Utilization: 47.333%
+CPU Utilization: 15.629%
+Memory Utilization: 47.3261%
+CPU Utilization: 16.051%
+Memory Utilization: 47.3348%
+CPU Utilization: 14.3583%
+Memory Utilization: 47.4282%
+CPU Utilization: 13.1378%
+------------------------------------
+
+------------------------------------
+Testing with 1000 threads
+------------------------------------
+
+Average Latency
+
+Average create latency 0.000361715
+Average Write latency 9.98915e-05
+Average Read latency 0.000205349
+Average Delete latency 8.52152e-05
+
+CPU and Memory Utilization
+
+Memory Utilization: 47.5384%
+CPU Utilization: 11.9244%
+Memory Utilization: 47.4689%
+CPU Utilization: 12.2293%
+Memory Utilization: 47.533%
+CPU Utilization: 33.8422%
+Memory Utilization: 47.5087%
+CPU Utilization: 31.3144%
+Memory Utilization: 47.5013%
+CPU Utilization: 36.3171%
+Memory Utilization: 47.5099%
+CPU Utilization: 30.7494%
+Memory Utilization: 47.5335%
+CPU Utilization: 28.7001%
+Memory Utilization: 47.5452%
+CPU Utilization: 36.9845%
+Memory Utilization: 47.5807%
+CPU Utilization: 37.5%
+Memory Utilization: 47.4713%
+CPU Utilization: 36.4812%
+Memory Utilization: 47.5244%
+CPU Utilization: 31.436%
+Memory Utilization: 47.4733%
+CPU Utilization: 41.3882%
+Memory Utilization: 47.4426%
+CPU Utilization: 13.9949%
+Memory Utilization: 47.41%
+CPU Utilization: 10.5464%
+Memory Utilization: 47.4111%
+CPU Utilization: 10.5598%
+Memory Utilization: 47.4172%
+CPU Utilization: 12.4208%
+Memory Utilization: 47.4233%
+CPU Utilization: 12.4365%
+Memory Utilization: 47.4225%
+CPU Utilization: 14.1582%
+------------------------------------
+
+------------------------------------
+Testing with 10000 threads
+------------------------------------
+Average Latency
+ 
+Average create latency 0.000518486
+Average Write latency 0.000362075
+Average Read latency 0.000561507
+Average Delete latency 9.31612e-05
+
+CPU and Memory Utilization
+
+Memory Utilization: 47.5988%
+CPU Utilization: 11.94%
+Memory Utilization: 47.644%
+CPU Utilization: 20.9657%
+Memory Utilization: 47.6659%
+CPU Utilization: 45.2073%
+Memory Utilization: 47.6362%
+CPU Utilization: 52.2639%
+Memory Utilization: 47.5458%
+CPU Utilization: 38.2812%
+Memory Utilization: 47.5608%
+CPU Utilization: 39.1473%
+Memory Utilization: 47.5947%
+CPU Utilization: 47.4293%
+Memory Utilization: 47.5254%
+CPU Utilization: 44.3272%
+Memory Utilization: 47.5234%
+CPU Utilization: 52.5161%
+Memory Utilization: 47.5539%
+CPU Utilization: 39.7419%
+Memory Utilization: 47.5756%
+CPU Utilization: 45.9355%
+Memory Utilization: 47.5904%
+CPU Utilization: 60.0775%
+Memory Utilization: 47.7808%
+CPU Utilization: 47.9844%
+Memory Utilization: 47.7923%
+CPU Utilization: 50.9702%
+Memory Utilization: 47.8493%
+CPU Utilization: 42.5997%
+Memory Utilization: 47.9152%
+CPU Utilization: 46.9152%
+Memory Utilization: 47.5735%
+CPU Utilization: 56.7708%
+Memory Utilization: 47.829%
+CPU Utilization: 38.0336%
+Memory Utilization: 47.8501%
+CPU Utilization: 20.3304%
+Memory Utilization: 47.8622%
+CPU Utilization: 9.62025%
+
+------------------------------------
+
+------------------------------------
+Average Latency Analysis
+------------------------------------
+
+Create Latency: Remains stable with a minor increase at 10,000 operations, likely due to slight memory or I/O overhead.
+
+Write Latency: Low across tests but rises slightly at 10,000 operations, suggesting increased I/O load.
+
+Read Latency: Minimal at 100 and 1,000 operations, with a noticeable increase at 10,000, indicating slower read speeds with larger datasets.
+
+Delete Latency: Consistently low, showing efficient deletion regardless of operation count.
+
+------------------------------------
+CPU Utilization Analysis
+------------------------------------
+
+100 Operations: CPU usage fluctuates moderately (10–23%), indicating a light load with intervals of low activity.
+
+1,000 Operations: CPU demand intensifies, peaking up to 41%, likely due to more frequent I/O or processing.
+
+10,000 Operations: CPU utilization rises significantly, frequently hitting 45–60%, showing a heavier processing load as operations scale.

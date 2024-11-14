@@ -1,0 +1,24 @@
+
+Procedure to know CPU untilization
+
+Open two terminal on same folder path
+
+In first terminal,
+execute the ./GenerateReport 
+To check change in CPU and Memory untilization
+
+In second terminal,
+execute the file with parameter 2 to go into Shell
+ ./Shell 1
+ 
+execute the file with parameter 2 to test 100 Operations
+ ./Shell 2 
+ 
+execute the file with parameter 3 to test 1000 Operations
+ ./Shell 3
+ 
+ execute the file with parameter 4 to test 10000 Operations
+ ./Shell 4 
+
+
+Please refer the documentation for more details
