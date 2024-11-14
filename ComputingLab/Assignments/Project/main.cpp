@@ -7,9 +7,12 @@
 #include <iomanip>
 #include <chrono>
 #include <ctime>
-#include <signal.h> 
+#include <signal.h>
+#include <thread>
+#include <pthread.h>
+
 using namespace std;
-#define MAXINODE 50
+#define MAXINODE 10000
 
 #define READ 1
 #define WRITE 2
@@ -42,7 +45,7 @@ typedef struct inode
     char *modified;
     int ReferenceCount;
     // 1+2  3
-    int permission; 
+    int permission;
     struct inode *next;
 } INODE, *PINODE;
 
@@ -51,8 +54,8 @@ typedef struct filetable
     int readoffset;
     int writeoffset;
     int count;
-    //1 2 3
-    int mode; 
+    // 1 2 3
+    int mode;
     PINODE ptrinode;
 } FILETABLE, *PFILETABLE;
 
@@ -61,7 +64,7 @@ typedef struct ufdt
     PFILETABLE ptrfiletable;
 } UFDT;
 
-UFDT UFDTArr[50];
+UFDT UFDTArr[10000];
 SUPERBLOCK SUPERBLOCKobj;
 PINODE head = NULL;
 
@@ -71,10 +74,8 @@ char *getCurrentDateTime()
     auto now = std::chrono::system_clock::now();
     std::time_t currentTime = std::chrono::system_clock::to_time_t(now);
 
-
     std::tm localTime = *std::localtime(&currentTime);
 
- 
     std::ostringstream dateTimeStream;
     dateTimeStream << std::put_time(&localTime, "%d/%m/%Y");
 
@@ -82,7 +83,6 @@ char *getCurrentDateTime()
 
     char *cstr = new char[date.size() + 1];
 
-   
     std::strcpy(cstr, date.c_str());
 
     return cstr;
@@ -208,14 +208,14 @@ int CreateFile(char *name, int permission)
         temp = temp->next;
     }
 
-    while (i < 50)
+    while (i < 10000)
     {
         if (UFDTArr[i].ptrfiletable == NULL)
             break;
         i++;
     }
 
-    if (i == 50)
+    if (i == 10000)
         return -5; // No free file table entry
 
     UFDTArr[i].ptrfiletable = (PFILETABLE)malloc(sizeof(FILETABLE));
@@ -284,7 +284,7 @@ int ReadFile(int fd, char *arr, int isize)
         return -4;
 
     read_size = (UFDTArr[fd].ptrfiletable->ptrinode->FileActualSize) - (UFDTArr[fd].ptrfiletable->readoffset);
-   
+
     if (read_size < isize)
     {
         strncpy(arr, (UFDTArr[fd].ptrfiletable->ptrinode->Buffer) + (UFDTArr[fd].ptrfiletable->readoffset), read_size);
@@ -297,7 +297,6 @@ int ReadFile(int fd, char *arr, int isize)
 
         (UFDTArr[fd].ptrfiletable->readoffset) = (UFDTArr[fd].ptrfiletable->readoffset) + isize;
     }
-   
 
     return read_size;
 }
@@ -384,20 +383,38 @@ void ls_file()
         if (temp->FileType != 0)
         {
             printf("%s \n", temp->FileName);
-            
         }
         temp = temp->next;
     }
-    
 }
 
-void sigintHandler(int sig_num) 
-{ 
+void sigintHandler(int sig_num)
+{
 
-	signal(SIGINT, sigintHandler); 
-	printf("\n Cannot be terminated using Ctrl+C and use exit command\n"); 
-	fflush(stdout); 
-} 
+    signal(SIGINT, sigintHandler);
+    printf("\n Cannot be terminated using Ctrl+C and use exit command\n");
+    fflush(stdout);
+}
+
+void threadCreateFile(char *filename, int permission, int &result)
+{
+    result = CreateFile(filename, permission);
+}
+
+void threadWriteFile(int fd, char *arr, int isize, int &result)
+{
+    result = WriteFile(fd, arr, isize);
+}
+
+void threadReadFile(int fd, char *arr, int isize, int &result)
+{
+    result = ReadFile(fd, arr, isize);
+}
+
+void threadDeleteFile(char *name, int &result)
+{
+    result = rm_File(name);
+}
 
 int main()
 {
@@ -412,7 +429,8 @@ int main()
 
     InitaliseSuperBlock();
     CreateDILB();
-    signal(SIGINT, sigintHandler); 
+    signal(SIGINT, sigintHandler);
+
     while (1)
     {
         fflush(stdin);
@@ -422,19 +440,17 @@ int main()
 
         fgets(str, 80, stdin);
 
-        
-        
         count = 0;
 
         // Tokenize the input using a loop and store tokens in the command array
-         // Tokenize by space or newline
+        // Tokenize by space or newline
         char *token = strtok(str, " \n");
 
         while (token != NULL && count < 100)
         {
-            strcpy(command[count], token); 
-            count++;                       
-            token = strtok(NULL, " \n");   
+            strcpy(command[count], token);
+            count++;
+            token = strtok(NULL, " \n");
         }
 
         if (count == 1)
@@ -462,6 +478,41 @@ int main()
                 printf("----------------Terminal Closed------------------\n\n");
                 break;
             }
+            else if (strcmp(command[0], "test") == 0)
+            {
+                char Files[100][50];
+                std::thread WriteThreads[100];
+                for (int i = 1; i <= 100; ++i)
+                {
+                    // Create the string in the format "i <string.i>"
+                    std::string result = "file" + std::to_string(i);
+
+                    // Print the string
+                    const char *cstr = result.c_str();
+                    std::strcpy(Files[i], cstr);
+                }
+
+                for (int i = 0; i < 100; i++)
+                {
+                    cout<<Files[i]<<"\n";
+                    WriteThreads[i] = std::thread(threadCreateFile, Files[i], 3, std::ref(ret));
+                    if (ret >= 0)
+                        printf("File is successfully created with file descriptor : %d\n", ret);
+                    if (ret == -1)
+                        printf("ERROR : Incorrect parameters\n");
+                    if (ret == -2)
+                        printf("ERROR : There is no inodes\n");
+                    if (ret == -3)
+                        printf("ERROR : File already exists\n");
+                    if (ret == -4)
+                        printf("ERROR : Memory allocation failure\n");
+                    // sleep(1);
+                }
+                for (int i = 0; i < 100; i++)
+                {
+                    WriteThreads[i].join();
+                }
+            }
             else
             {
                 printf("\nERROR : Command not found !!!\n");
@@ -476,7 +527,9 @@ int main()
             }
             else if (strcmp(command[0], "create") == 0)
             {
-                ret = CreateFile(command[1], 3);
+
+                std::thread _CreateFile(threadCreateFile, command[1], 3, std::ref(ret));
+                _CreateFile.join();
                 if (ret >= 0)
                     printf("File is successfully created with file descriptor : %d\n", ret);
                 if (ret == -1)
@@ -487,6 +540,7 @@ int main()
                     printf("ERROR : File already exists\n");
                 if (ret == -4)
                     printf("ERROR : Memory allocation failure\n");
+
                 continue;
             }
 
@@ -506,7 +560,9 @@ int main()
                     printf("ERROR: Memory allocation failure\n");
                     continue;
                 }
-                ret = ReadFile(fd, ptr, MAXFILESIZE);
+                std::thread _ReadFile(threadReadFile, fd, ptr, MAXFILESIZE, std::ref(ret));
+                _ReadFile.join();
+                // ret = ReadFile(fd, ptr, MAXFILESIZE);
                 if (ret == -1)
                     printf("ERROR : File not existing\n");
                 if (ret == -2)
@@ -530,7 +586,9 @@ int main()
 
             else if (strcmp(command[0], "delete") == 0)
             {
-                ret = rm_File(command[1]);
+                std::thread _DeleteFile(threadDeleteFile, command[1], std::ref(ret));
+                _DeleteFile.join();
+                // ret = rm_File(command[1]);
                 if (ret == -1)
                     printf("ERROR : There is no such file\n");
                 continue;
@@ -547,6 +605,7 @@ int main()
 
             if (strcmp(command[0], "write") == 0)
             {
+
                 fd = GetFDFromName(command[1]);
                 if (fd == -1)
                 {
@@ -564,7 +623,9 @@ int main()
                 char *Info = (char *)malloc(sizeof(char) * ret + 1);
                 strcpy(Info, command[2]);
                 Info[ret + 1] = '\0';
-                ret = WriteFile(fd, Info, ret);
+                std::thread _WriteFile(threadWriteFile, fd, Info, ret, std::ref(ret));
+                _WriteFile.join();
+                // ret = WriteFile(fd, Info, ret);
                 if (ret == -1)
                     printf("ERROR : Permission denied\n");
                 if (ret == -2)
@@ -588,7 +649,9 @@ int main()
                     if (strcmp(command[i], "") != 0)
                     {
 
-                        ret = CreateFile(command[i], 3);
+                        // ret = CreateFile(command[i], 3);
+                        std::thread _CreateFile(threadCreateFile, command[i], 3, std::ref(ret));
+                        _CreateFile.join();
                         if (ret >= 0)
                             printf("File is successfully created with file descriptor : %d\n", ret);
                         if (ret == -1)
@@ -615,7 +678,9 @@ int main()
                 {
                     if (strcmp(command[i], "") != 0)
                     {
-                        ret = rm_File(command[i]);
+                        std::thread _DeleteFile(threadDeleteFile, command[i], std::ref(ret));
+                        _DeleteFile.join();
+                        // ret = rm_File(command[i]);
                         if (ret == -1)
                             printf("ERROR : There is no such file\n");
                     }
