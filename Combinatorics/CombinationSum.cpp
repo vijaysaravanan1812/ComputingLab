@@ -1,5 +1,3 @@
-//https://leetcode.com/problems/combination-sum/
-
 class Solution {
     void FindCombination(int index , int target , vector<int>& current , vector<int>& candidates , vector<vector<int>>& result){
         if(target == 0){
